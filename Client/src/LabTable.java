@@ -10,6 +10,7 @@ import java.net.DatagramSocket;
 import java.net.InetSocketAddress;
 import java.net.SocketAddress;
 import java.nio.ByteBuffer;
+import java.time.ZonedDateTime;
 import java.util.TreeSet;
 import java.util.regex.Pattern;
 
@@ -48,6 +49,8 @@ public class LabTable extends AbstractTableModel implements TableModel {
             case 3:
                 result = "Location";
                 break;
+            case 4:
+                result = "Last change";
         }
           //  case 3:return("Gender");
             return result;
@@ -106,7 +109,7 @@ public class LabTable extends AbstractTableModel implements TableModel {
             arr[i].setAge(a.getAge());
             arr[i].setName(a.getName());
             arr[i].setLocation(a.getLocation());
-            //arr[i].setGender(a.getGender());
+            arr[i].setLastChangeTime(a.getLastChangeTime());
             i++;
         }
         if(getHumans().size()!=0)
@@ -115,14 +118,14 @@ public class LabTable extends AbstractTableModel implements TableModel {
             case 1:{return arr[rowIndex].getName();}
             case 2:{return arr[rowIndex].getAge();}
             case 3:{return arr[rowIndex].getLocation();}
-           // case 3:{return arr[rowIndex].getGender()? "Male":"Female";}
+            case 4:{return arr[rowIndex].getLastChangeTime().toString();}
             default:{return null;}
         }else return(null);
     }
 
     @Override
     public int getColumnCount() {
-        return 4; //4;
+        return 5; //4;
     }
 
     @Override
@@ -133,6 +136,7 @@ public class LabTable extends AbstractTableModel implements TableModel {
             case 1: returnValue=String.class; break;
             case 2: returnValue=Integer.class; break;
             case 3: returnValue=String.class; break;
+            case 4:returnValue= String.class; break;
             default:returnValue=String.class; break;
         }
         return returnValue;

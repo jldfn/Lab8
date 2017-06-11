@@ -79,10 +79,16 @@ public class ConsoleApp {
         JTable sortTable = new JTable(guiFrame.getTable());
         DefaultTableCellRenderer first = new DefaultTableCellRenderer();
         first.setHorizontalAlignment(JLabel.CENTER);
+        sortTable.getColumnModel().getColumn(0).setPreferredWidth(15);
+        sortTable.getColumnModel().getColumn(1).setPreferredWidth(80);
+        sortTable.getColumnModel().getColumn(2).setPreferredWidth(15);
+        sortTable.getColumnModel().getColumn(3).setPreferredWidth(80);
+        sortTable.getColumnModel().getColumn(4).setPreferredWidth(140);
         sortTable.getColumnModel().getColumn(0).setCellRenderer(first);
         sortTable.getColumnModel().getColumn(1).setCellRenderer(first);
         sortTable.getColumnModel().getColumn(2).setCellRenderer(first);
         sortTable.getColumnModel().getColumn(3).setCellRenderer(first);
+        sortTable.getColumnModel().getColumn(4).setCellRenderer(first);
         sortTable.setRowSorter(sort);
         // </Table sorter setting>
 

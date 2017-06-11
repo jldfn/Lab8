@@ -1,4 +1,5 @@
 import java.io.*;
+import java.time.ZonedDateTime;
 
 /**
  * Created by Денис on 19.11.2016.
@@ -7,6 +8,8 @@ public class Human implements Comparable, Serializable {
     private String name;
     private int age;
     private String location;
+    private ZonedDateTime lastChangeTime;
+
     Human(){}
     Human(String n, int a){
         setAge(a);
@@ -97,6 +100,14 @@ public class Human implements Comparable, Serializable {
             }
         }
         return null;
+    }
+
+    public ZonedDateTime getLastChangeTime() {
+        return lastChangeTime;
+    }
+
+    public void setLastChangeTime(ZonedDateTime lastChangeTime) {
+        this.lastChangeTime = lastChangeTime;
     }
 }
 
