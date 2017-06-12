@@ -25,7 +25,14 @@ public class LocalizedResources_hu_HU extends ListResourceBundle {
                 {"Column2","Kor"},
                 {"Column3","Elhelyezkedés"},
                 {"Column4","Létrehozásának időpontja"},
-                {"timeZone","UTC+2"}
+                {"timeZone","UTC+2"},
+                {"CannotReachServer","A szerver nem elérhető, vagy az összes port foglalt"},
+                {"TtC","Csatlakozás a port: "},
+                {"Saved","A gyűjtemény sikeresen egy fájlba"},
+                {"FnFError","A fájl nem található"},
+                {"Port","Kikötő "},
+                {"Unavailable"," nem elérhető"},
+                {"Hello","Helló"}
         };
     }
 }

@@ -25,7 +25,14 @@ public class LocalizedResources_es_CR extends ListResourceBundle {
                 {"Column2","Edad"},
                 {"Column3","Ubicación"},
                 {"Column4","Tiempo de creación"},
-                {"timeZone","UTC-6"}
+                {"timeZone","UTC-6"},
+                {"CannotReachServer","El servidor no está disponible, o todos los puertos están ocupados"},
+                {"TtC","Conexión al puerto: "},
+                {"Saved","La colección se ha guardado correctamente a un archivo"},
+                {"FnFError","Archivo no encontrado"},
+                {"Port","Puerto "},
+                {"Unavailable"," indisponible"},
+                {"Hello","¡Hola"}
         };
     }
 }

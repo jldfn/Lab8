@@ -26,7 +26,7 @@ public class ConsoleApp {
     static final String PASSWORD = "B9zbYEl*dj}6";
     static TimeoutThread timeOut;
     static public int port=8880;
-    static ResourceBundle localization;
+    static ResourceBundle localization=ResourceBundle.getBundle("LocalizedResources");
     public static void main(String[] args) {
         timeOut=new TimeoutThread(Thread.currentThread());
         timeOut.start();
@@ -127,7 +127,7 @@ public class ConsoleApp {
         //  <Output panel Setting>
         JTextPane OutputPanel = new JTextPane();
         OutputPanel.setPreferredSize(new Dimension(690, 135));
-        OutputPanel.setText("Здравствуйте" + System.getProperty("line.separator") + "Здесь будут выводиться все сообщения системы");
+        OutputPanel.setText(localization.getString("Hello"));
         OutputPanel.setEditable(false);
         TextPaneOutputStream outputStream=new TextPaneOutputStream(OutputPanel);
         System.setOut(new PrintStream(outputStream));
@@ -217,11 +217,7 @@ public class ConsoleApp {
                         switch (buffString[0]) {
                             case "name":
                                 Matcher hName = Pattern.compile("[0-9]").matcher(buffString[1]);
-                                if (hName.find()) {
-                                    System.out.print("Поле name может содержать исключительно символы латинского алфавита и кириллицы");
-                                } else {
-                                    if (name != null)
-                                        System.out.print("Атрибут name введён повторно, будет использовано следующее значение: " + buffString[1]);
+                                if (!hName.find()) {
                                     name = buffString[1].substring(1, buffString[1].length() - 1);
                                     hasAttributes[0] = true;
                                 }
@@ -229,40 +225,25 @@ public class ConsoleApp {
                             case "age":
                                 Matcher hAge = Pattern.compile("\"[0-9]+\"").matcher(buffString[1]);
                                 if (hAge.matches()) {
-                                    if (age != -1)
-                                        System.out.print("Атрибут age введён несколько раз, будет использовано последнее значение: " + buffString[1]);
                                     age = Integer.parseInt(buffString[1].substring(1, buffString[1].length() - 1));
                                     hasAttributes[1] = true;
-                                } else {
-                                    System.out.print("В возрасте могут присутствовать только цифры!");
                                 }
                                 break;
                             case "loc":
-                                if (location != null)
-                                    System.out.print("Атрибут location введён несколько раз, будет использовано корректное последнее значение" + buffString[1]);
                                 location = buffString[1].substring(1, buffString[1].length() - 1);
                                 hasAttributes[2] = true;
                                 break;
-                            default:
-                                System.out.print("В классе Human нет поля " + buffString[0]);
                         }
                     }
                     if (hasAttributes[0] && hasAttributes[1] && hasAttributes[2]) {
                         Human newHuman=new Human(name, age, location);
-                        System.out.print("Объект "+newHuman.toString()+" успешно был добавлен в коллекцию");
                         a.getUselessData().add(newHuman);
-                    } else {
-                        if (!hasAttributes[0]) System.out.print("Атрибут name не был задан");
-                        if (!hasAttributes[1]) System.out.print("Атрибут age не был задан");
-                        if (!hasAttributes[2]) System.out.print("Атрибут location не был задан");
                     }
-                } else {
-                    System.out.print("Объекты данного типа не могут быть занесены в коллекцию");
                 }
                 currentString = startReader.nextLine();
             }
         } catch (FileNotFoundException e) {
-            System.out.print("Файл не найден");
+            System.out.print(localization.getString("FnFError"));
         }
         return a;
     }
@@ -290,7 +271,7 @@ public class ConsoleApp {
             }
             writer.write("</Collection>");
             writer.close();
-            System.out.print("Коллекция успешно сохранена в файл "+defaultPath);
+            System.out.print(localization.getString("Saved")+defaultPath);
         } catch (Exception f) {
             System.out.print(f.getMessage());
         }
@@ -300,7 +281,7 @@ public class ConsoleApp {
         int i=0;
         try {
             for (i = 8880; i <= 8890; i++) {
-                System.out.println("Trying to connect to port " + i);
+                System.out.println(localization.getString("TtC") + i);
                 DatagramSocket clientSocket = new DatagramSocket();
                 InetSocketAddress address = new InetSocketAddress(HOSTNAME, i);
                 DatagramPacket testPacket = new DatagramPacket("test".getBytes(), "test".getBytes().length, address);
@@ -318,7 +299,7 @@ public class ConsoleApp {
             System.out.println("asda");
             e.printStackTrace();
         }
-        if(i==8891){System.out.print("Нет соединения с сервером или заняты все порты"); System.exit(1); return null;}
+        if(i==8891){System.out.print(localization.getString("CannotReachServer")); System.exit(1); return null;}
         else return LabListener.makeCall("collection",new Human());
     }
 

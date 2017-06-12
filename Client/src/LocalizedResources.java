@@ -25,7 +25,14 @@ public class LocalizedResources extends ListResourceBundle {
                 {"Column2","Возраст"},
                 {"Column3","Локация"},
                 {"Column4","Время создания"},
-                {"timeZone","UTC+3"}
+                {"timeZone","UTC+3"},
+                {"CannotReachServer","Сервер недоступен, либо заняты все порты"},
+                {"TtC","Подключение к порту: "},
+                {"Saved","Коллекция успешно сохранена в файл "},
+                {"FnFError","Файл не найден"},
+                {"Port","Порт "},
+                {"Unavailable"," недоступен"},
+                {"Hello","Здравствуйте"}
         };
     }
 }

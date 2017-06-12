@@ -25,7 +25,14 @@ public class LocalizedResources_sk_SK extends ListResourceBundle {
                 {"Column2","Vek"},
                 {"Column3","Umiestnenia"},
                 {"Column4","Čas vytvorenia"},
-                {"timeZone","UTC+2"}
+                {"timeZone","UTC+2"},
+                {"CannotReachServer","Server nie je k dispozícii, alebo všetky porty sú zaneprázdnení"},
+                {"TtC","Pripojenie k portu: "},
+                {"Saved","Zbierka bola úspešne uložená do súboru"},
+                {"FnFError","Súbor nenájdený"},
+                {"Port","Prístav "},
+                {"Unavailable"," nedostupné"},
+                {"Hello","Ahoj"}
         };
     }
 }
