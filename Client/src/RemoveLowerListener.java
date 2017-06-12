@@ -21,21 +21,15 @@ public class RemoveLowerListener extends LabListener {
             if (Pattern.compile("[A-zА-я']+").matcher(getNameField().getText()).matches()) {
                 if (Pattern.compile("[A-zА-я0-9\\-_]+").matcher(getLocField().getText()).matches()) {
                     if (ConsoleApp.timedOut) {
-                        System.out.print("Вы не подавали признаков жизни более двух минут, будет осуществлено переподключение к серверу");
+                        System.out.print(ConsoleApp.localization.getString("timedOutError"));
                         ConsoleApp.tryToConnect();
+                        ConsoleApp.timedOut = false;
                     }
                     Human consoleArgument = new Human(getNameField().getText(), (int) getAgeSpinner().getValue(), getLocField().getText());
                     ProgressBarThread jPBarThread = new ProgressBarThread(jpb1);
                     jPBarThread.start();
-                    /*Iterator iter = getCollection().iterator();
-                    while (iter.hasNext()) {
-                        Human a = (Human) iter.next();
-                        if (consoleArgument.compareTo(a) > 0) {
-                            System.out.print(a.toString() + " был удалён из коллекции");
-                            iter.remove();
-                            getTable().fireTableDataChanged();
-                        }
-                    }*/
+                    ConsoleApp.timeOut.sleepTime = 120000;
+                    ConsoleApp.timeOut.interrupt();
                     getCollection().clear();
                     getCollection().addAll(makeCall("remove_lower", consoleArgument).getUselessData());
                     getNameField().setText("");
@@ -49,7 +43,7 @@ public class RemoveLowerListener extends LabListener {
                     }
                     jPBarThread.interrupt();
                 } else {
-                    System.out.print("Поле \"Локация\" не может являться пустым. В локации могут содержаться лишь символы кириллицы, латинского алфавита, цифры, \"-\" и \"_\"");
+                    System.out.print(ConsoleApp.localization.getString("error1"));
                     String path = "src/music/shekh.wav";
                     MusicRunnable t1 = new MusicRunnable();
                     t1.path = path;
@@ -57,7 +51,7 @@ public class RemoveLowerListener extends LabListener {
                     thread.start();
                 }
             } else {
-                System.out.print("Поле \"Имя\" не может являться пустым.В имени могут содержаться только символы кириллицы и латинского алфавита");
+                System.out.print(ConsoleApp.localization.getString("error2"));
                 String path = "src/music/shekh.wav";
                 MusicRunnable t1 = new MusicRunnable();
                 t1.path = path;
@@ -65,7 +59,7 @@ public class RemoveLowerListener extends LabListener {
                 thread.start();
             }
         } else {
-            System.out.print("Возраст может быть только в пределах от 0 до 120 лет");
+            System.out.print(ConsoleApp.localization.getString("error3"));
             String path = "src/music/shekh.wav";
             MusicRunnable t1 = new MusicRunnable();
             t1.path = path;

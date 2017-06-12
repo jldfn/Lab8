@@ -10,7 +10,9 @@ import java.net.DatagramSocket;
 import java.net.InetSocketAddress;
 import java.net.SocketAddress;
 import java.nio.ByteBuffer;
+import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.TreeSet;
 import java.util.regex.Pattern;
 
@@ -41,18 +43,17 @@ public class LabTable extends AbstractTableModel implements TableModel {
                 result="№";
                 break;
             case 1:
-                result = "Name";
+                result = ConsoleApp.localization.getString("Column1");
                 break;
             case 2:
-                result = "Age";
+                result = ConsoleApp.localization.getString("Column2");
                 break;
             case 3:
-                result = "Location";
+                result = ConsoleApp.localization.getString("Column3");
                 break;
             case 4:
-                result = "Last change";
+                result = ConsoleApp.localization.getString("Column4");;
         }
-          //  case 3:return("Gender");
             return result;
     }
 
@@ -71,29 +72,23 @@ public class LabTable extends AbstractTableModel implements TableModel {
                         if (Pattern.compile("[A-zА-я]+").matcher(aValue.toString()).matches()) {
                             getHumans().clear();
                             getHumans().addAll(makeUpdateCall(object,1,(String)aValue).getUselessData());
-                            /*Humans.remove(arr[(int) getValueAt(rowIndex, 0) - 1]);
-                            Humans.add(new Human((String) aValue, arr[(int) getValueAt(rowIndex, 0) - 1].getAge(), arr[(int) getValueAt(rowIndex, 0) - 1].getLocation()));*/
-                        }else{System.out.print("Поле \"Имя\" не может являться пустым.В имени могут содержаться только символы кириллицы и латинского алфавита");}
+                        }else{System.out.print(ConsoleApp.localization.getString("error2"));}
                         break;
                     case 2:
                         if((int)aValue>=0 && (int) aValue<=120) {
                             getHumans().clear();
                             getHumans().addAll(makeUpdateCall(object,2,Integer.toString((int)aValue)).getUselessData());
-                            /*Humans.remove(arr[(int) getValueAt(rowIndex, 0) - 1]);
-                            Humans.add(new Human(arr[(int) getValueAt(rowIndex, 0) - 1].getName(), (int) aValue, arr[(int) getValueAt(rowIndex, 0) - 1].getLocation()));*/
                         }
                         else
                         {
-                            System.out.print("Возраст может быть в пределах от 0 до 120");
+                            System.out.print(ConsoleApp.localization.getString("error3"));
                         }
                         break;
                     case 3:
                         if (Pattern.compile("[A-zА-я0-9\\-_]+").matcher(aValue.toString()).matches()) {
                             getHumans().clear();
                             getHumans().addAll(makeUpdateCall(object,3,(String)aValue).getUselessData());
-                            /*Humans.remove(arr[(int) getValueAt(rowIndex, 0) - 1]);
-                            Humans.add(new Human(arr[(int) getValueAt(rowIndex, 0) - 1].getName(), arr[(int) getValueAt(rowIndex, 0) - 1].getAge(), (String) aValue));*/
-                        }else{System.out.print("Поле \"Имя\" не может являться пустым.В имени могут содержаться только символы кириллицы и латинского алфавита");}
+                        }else{System.out.print(ConsoleApp.localization.getString("error1"));}
                         break;
                 }
                 fireTableDataChanged();
@@ -118,14 +113,14 @@ public class LabTable extends AbstractTableModel implements TableModel {
             case 1:{return arr[rowIndex].getName();}
             case 2:{return arr[rowIndex].getAge();}
             case 3:{return arr[rowIndex].getLocation();}
-            case 4:{return arr[rowIndex].getLastChangeTime().toString();}
+            case 4:{return DateTimeFormatter.ofPattern("dd/MM/yyyy - HH:mm").format(arr[rowIndex].getLastChangeTime().withZoneSameInstant(ZoneId.of(ConsoleApp.localization.getString("timeZone"))));}
             default:{return null;}
         }else return(null);
     }
 
     @Override
     public int getColumnCount() {
-        return 5; //4;
+        return 5;
     }
 
     @Override
@@ -165,7 +160,6 @@ public class LabTable extends AbstractTableModel implements TableModel {
             try {
                 clientSocket.send(new DatagramPacket(attributeValue.getBytes(),attributeValue.getBytes().length,address));
             } catch (IOException ex) {
-                // ignore close exception
             }finally {
                 try{
                     bos.close();}catch (IOException e){}
@@ -176,7 +170,7 @@ public class LabTable extends AbstractTableModel implements TableModel {
             clientSocket.receive(receivePacket);
             String flag=new String(refreshFlag);
             if(flag.contains("true")){
-                System.out.print("Вы пытались совершить запрос по неактуальным данным, они были обновлены, поробуйте повторить ваш запрос");
+                System.out.print(ConsoleApp.localization.getString("oldDataError"));
             }
             clientSocket.close();
             return (LabCollection.deserialize(receivePacket.getData()));

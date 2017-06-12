@@ -18,7 +18,14 @@ public class LocalizedResources_es_CR extends ListResourceBundle {
                 {"error2", "Campo \"Nombre\" no puede ser el nombre pustym.V puede contener solamente el alfabeto cirílico y latino"},
                 {"error3", "La edad sólo puede estar en el rango de 0 a 120 años"},
                 {"filterButton","Filtro"},
-                {"loc","ES"}
+                {"loc","ES"},
+                {"oldDataError","Ha intentado realizar una solicitud de información irrelevante, se han actualizado, intenta repetir su solicitud"},
+                {"timedOutError","Usted no presentó signos de vida durante más de dos minutos, se hace volver a conectarse al servidor"},
+                {"Column1","Nombre"},
+                {"Column2","Edad"},
+                {"Column3","Ubicación"},
+                {"Column4","Tiempo de creación"},
+                {"timeZone","UTC-6"}
         };
     }
 }

@@ -22,41 +22,38 @@ public class SingleAddingListener extends LabListener {
         if ((int) getAgeSpinner().getValue() >= 0 && (int) getAgeSpinner().getValue() <= 120) {
             String name = getNameField().getText();
             String loc = getLocField().getText();
-            if ((name.matches("[a-zA-Z]*yan") || name.matches("[А-Яа-я]*ян")) && getLocField().getText().equals("")==false){
+            if ((name.matches("[a-zA-Z]*yan") || name.matches("[А-Яа-я]*ян")) && getLocField().getText().equals("") == false) {
                 String path = "src/music/gopnik.wav";
                 MusicRunnable t1 = new MusicRunnable();
                 t1.path = path;
                 Thread thread = new Thread(t1);
                 thread.start();
             }
-            if (name.equals("anekdot") || name.contains("анекдот")){
-                int i=1 + (int) (Math.random() * 4);
-                String path = "src/music/anekdot"+i+".wav";
+            if (name.equals("anekdot") || name.contains("анекдот")) {
+                int i = 1 + (int) (Math.random() * 4);
+                String path = "src/music/anekdot" + i + ".wav";
                 MusicRunnable t1 = new MusicRunnable();
                 t1.path = path;
                 t1.run();
             }
             if (Pattern.compile("[A-zА-я']+").matcher(getNameField().getText()).matches()) {
                 if (Pattern.compile("[A-zА-я0-9\\-_]+").matcher(getLocField().getText()).matches()) {
-                    if(ConsoleApp.timedOut){
-                        System.out.print("Вы не подавали признаков жизни более двух минут, будет осуществлено переподключение к серверу");
-                        ConsoleApp.tryToConnect();}
+                    if (ConsoleApp.timedOut) {
+                        System.out.print(ConsoleApp.localization.getString("timedOutError"));
+                        ConsoleApp.tryToConnect();
+                        ConsoleApp.timedOut = false;
+                    }
                     Human Person = new Human(getNameField().getText(), (int) getAgeSpinner().getValue(), getLocField().getText());
-                    /*
-                    getCollection().add(Person);
-                    getTable().fireTableDataChanged();
-                    System.out.print("Объект " + Person.toString() + " был успешно занесен в коллекцию");*/
                     getNameField().setText("");
                     getAgeSpinner().setValue(0);
                     getLocField().setText("");
                     getCollection().clear();
-                    getCollection().addAll(makeCall("add",Person).getUselessData());
+                    getCollection().addAll(makeCall("add", Person).getUselessData());
                     getTable().fireTableDataChanged();
-                    ConsoleApp.timedOut=false;
-                    ConsoleApp.timeOut.sleepTime=120000;
+                    ConsoleApp.timeOut.sleepTime = 120000;
                     ConsoleApp.timeOut.interrupt();
                 } else {
-                    System.out.print("Поле \"Локация\" не может являться пустым. В локации могут содержаться лишь символы кириллицы, латинского алфавита, цифры, \"-\" и \"_\"");
+                    System.out.print(ConsoleApp.localization.getString("error1"));
                     String path = "src/music/shekh.wav";
                     MusicRunnable t1 = new MusicRunnable();
                     t1.path = path;
@@ -64,7 +61,7 @@ public class SingleAddingListener extends LabListener {
                     thread.start();
                 }
             } else {
-                System.out.print("Поле \"Имя\" не может являться пустым.В имени могут содержаться только символы кириллицы и латинского алфавита");
+                System.out.print(ConsoleApp.localization.getString("error2"));
                 String path = "src/music/shekh.wav";
                 MusicRunnable t1 = new MusicRunnable();
                 t1.path = path;
@@ -72,7 +69,7 @@ public class SingleAddingListener extends LabListener {
                 thread.start();
             }
         } else {
-            System.out.print("Возраст может быть только в пределах от 0 до 120 лет");
+            System.out.print(ConsoleApp.localization.getString("error3"));
             String path = "src/music/shekh.wav";
             MusicRunnable t1 = new MusicRunnable();
             t1.path = path;

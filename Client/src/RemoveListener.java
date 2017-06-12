@@ -49,25 +49,14 @@ public class RemoveListener extends LabListener {
         if ((int) getAgeSpinner().getValue() >= 0 && (int) getAgeSpinner().getValue() <= 120) {
             if (Pattern.compile("[A-zА-я']+").matcher(getNameField().getText()).matches()) {
                 if (Pattern.compile("[A-zА-я0-9\\-_]+").matcher(getLocField().getText()).matches()) {
-                    if(ConsoleApp.timedOut){
-                        System.out.print("Вы не подавали признаков жизни более двух минут, будет осуществлено переподключение к серверу");
-                        ConsoleApp.tryToConnect();}
-                    Human consoleArgument = new Human(getNameField().getText(), (int) getAgeSpinner().getValue(), getLocField().getText());
-                    /*Iterator iter = getCollection().iterator();
-                    boolean removed = false;
-                    while (iter.hasNext()) {
-                        Human currentElement = (Human) iter.next();
-                        if (currentElement.equals(consoleArgument)) {
-                            iter.remove();
-                            System.out.print(consoleArgument.toString() + " успешно удалён из коллекции");
-                            removed = true;
-                            getTable().fireTableDataChanged();
-                            break;
-                        }
+                    if (ConsoleApp.timedOut) {
+                        System.out.print(ConsoleApp.localization.getString("timedOutError"));
+                        ConsoleApp.tryToConnect();
+                        ConsoleApp.timedOut = false;
                     }
-                    if (!removed) {
-                        System.out.print("Данного элемента нет в коллекции");
-                    }*/
+                    Human consoleArgument = new Human(getNameField().getText(), (int) getAgeSpinner().getValue(), getLocField().getText());
+                    ConsoleApp.timeOut.sleepTime = 120000;
+                    ConsoleApp.timeOut.interrupt();
                     getNameField().setText("");
                     getAgeSpinner().setValue(0);
                     getLocField().setText("");
@@ -76,7 +65,7 @@ public class RemoveListener extends LabListener {
                     getCollection().addAll(makeCall("remove",consoleArgument).getUselessData());
                     getTable().fireTableDataChanged();
                 } else {
-                    System.out.print("Поле \"Локация\" не может являться пустым. В локации могут содержаться лишь символы кириллицы, латинского алфавита, цифры, \"-\" и \"_\"");
+                    System.out.print(ConsoleApp.localization.getString("error1"));
                     String path = "src/music/shekh.wav";
                     MusicRunnable t1 = new MusicRunnable();
                     t1.path = path;
@@ -84,7 +73,7 @@ public class RemoveListener extends LabListener {
                     thread.start();
                 }
             } else {
-                System.out.print("Поле \"Имя\" не может являться пустым.В имени могут содержаться только символы кириллицы и латинского алфавита");
+                System.out.print(ConsoleApp.localization.getString("error2"));
                 String path = "src/music/shekh.wav";
                 MusicRunnable t1 = new MusicRunnable();
                 t1.path = path;
@@ -92,7 +81,7 @@ public class RemoveListener extends LabListener {
                 thread.start();
             }
         } else {
-            System.out.print("Возраст может быть только в пределах от 0 до 120 лет");
+            System.out.print(ConsoleApp.localization.getString("error3"));
             String path = "src/music/shekh.wav";
             MusicRunnable t1 = new MusicRunnable();
             t1.path = path;

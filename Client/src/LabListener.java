@@ -76,7 +76,7 @@ public abstract class LabListener implements ActionListener {
             String flag=new String(refreshFlag);
             if(flag.contains("true")){
                 if(!command.contains("collection"))
-                System.out.print("Вы пытались совершить запрос по неактуальным данным, они были обновлены, поробуйте повторить ваш запрос");
+                System.out.print(ConsoleApp.localization.getString("oldDataError"));
                 String path = "src/music/shekh.wav";
                 MusicRunnable t1 = new MusicRunnable();
                 t1.path = path;

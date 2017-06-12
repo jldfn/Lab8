@@ -29,17 +29,22 @@ public class ImportListener extends LabListener {
             @Override
             public void run() {
                 Matcher m = Pattern.compile("\\{([^}]+)\\}").matcher(getNameField().getText());
+                if (ConsoleApp.timedOut) {
+                    System.out.print(ConsoleApp.localization.getString("timedOutError"));
+                    ConsoleApp.tryToConnect();
+                    ConsoleApp.timedOut = false;
+                }
                 LabCollection ImportCol = new LabCollection();
                 while (m.find()) {
                     TreeSet<Human> newCol = new TreeSet<>();
-                    //getCollection().addAll(makeCall(m.group().substring(1, m.group().length() - 1)).getUselessData());
-                    //getTable().fireTableDataChanged();
                     newCol = ConsoleApp.ImportFrom(m.group().substring(1, m.group().length() - 1)).getUselessData();
                     ImportCol.addUselessData(newCol);
                 }
                 getNameField().setText("");
+                ConsoleApp.timeOut.sleepTime = 120000;
+                ConsoleApp.timeOut.interrupt();
                 getCollection().clear();
-                getCollection().addAll(makeCall("import",ImportCol).getUselessData());
+                getCollection().addAll(makeCall("import", ImportCol).getUselessData());
                 getTable().fireTableDataChanged();
             }
         }).start();
@@ -69,7 +74,7 @@ public class ImportListener extends LabListener {
             clientSocket.receive(receivePacket);
             String flag = new String(refreshFlag);
             if (flag.contains("true")) {
-                System.out.print("Вы пытались совершить запрос по неактуальным данным, они были обновлены, поробуйте повторить ваш запрос");
+                System.out.print(ConsoleApp.localization.getString("oldDataError"));
                 String path = "src/music/shekh.wav";
                 MusicRunnable t1 = new MusicRunnable();
                 t1.path = path;

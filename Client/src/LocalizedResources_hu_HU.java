@@ -18,7 +18,14 @@ public class LocalizedResources_hu_HU extends ListResourceBundle {
                 {"error2", "„Név” mező nem lehet pustym.V neve tartalmazhat csak cirill és latin ábécé"},
                 {"error3", "Életkor csak a 0-tól 120 éves"},
                 {"filterButton","Szűrő"},
-                {"loc","HU"}
+                {"loc","HU"},
+                {"oldDataError","Kísérelte meg a kérelem irreleváns információ, azt frissítették, próbálja megismételni a kérést"},
+                {"timedOutError","Nem nyújt be az élet jeleit két percen át, ez történik, hogy újra a szerverhez"},
+                {"Column1","Név"},
+                {"Column2","Kor"},
+                {"Column3","Elhelyezkedés"},
+                {"Column4","Létrehozásának időpontja"},
+                {"timeZone","UTC+2"}
         };
     }
 }
