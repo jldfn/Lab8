@@ -11,6 +11,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
 import java.net.*;
+import java.util.ResourceBundle;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -25,6 +26,7 @@ public class ConsoleApp {
     static final String PASSWORD = "B9zbYEl*dj}6";
     static TimeoutThread timeOut;
     static public int port=8880;
+    static ResourceBundle localization;
     public static void main(String[] args) {
         timeOut=new TimeoutThread(Thread.currentThread());
         timeOut.start();
@@ -54,7 +56,14 @@ public class ConsoleApp {
     }
 
     private static void gui(LabCollection labCollection) throws InterruptedException {
-        LabFrame guiFrame = new LabFrame("Lab6");
+        localization= ResourceBundle.getBundle("LocalizedResources");
+        LabFrame guiFrame = new LabFrame(localization.getString("windowTitle"));
+        repaintFrame(guiFrame,labCollection);
+        guiFrame.setVisible(true);
+    }
+
+    public static void repaintFrame(LabFrame guiFrame,LabCollection labCollection){
+        guiFrame.getContentPane().removeAll();
         //  <Background setting>
         JLabel backLabel=new JLabel();
         try {
@@ -94,7 +103,7 @@ public class ConsoleApp {
 
         // <Table filter setting>
         JTextField filterText = new JTextField(30);
-        JButton filterButton = new JButton("Filter");
+        JButton filterButton = new JButton(localization.getString("filterButton"));
         filterText.addKeyListener(new EnterListener(filterButton));
         filterButton.setPreferredSize(new Dimension(125,20));
         JPanel filterPanel = new JPanel();
@@ -130,45 +139,43 @@ public class ConsoleApp {
         jpb.setIndeterminate(false);
         //  </ProgressBar setting>
 
-        //  <"Add" button setting>
-        JSpinner spin = new JSpinner();
-        AddingButton addHuman = new AddingButton(spin, labCollection.getUselessData(), guiFrame.getTable(), jpb);
-        JPanel spinPanel = new JPanel();
-        spinPanel.setOpaque(false);
-        spinPanel.add(addHuman);
-        spinPanel.add(spin);
-        spin.setValue(0);
-        spin.setPreferredSize(new Dimension(45, 25));
-        addHuman.setText("Нажать, чтобы добавить людей в данном количестве");
-        //  </"Add" button setting>
-
         //  <"SingleAdd" button setting>
         SingleAddingListener addingListener=new SingleAddingListener(new JTextField(),new JSpinner(),new JTextField(),labCollection.getUselessData(),guiFrame.getTable(),jpb);
-        LabButton addingButton = new LabButton("Add",addingListener);
+        LabButton addingButton = new LabButton(localization.getString("addButton"),addingListener);
         //  </"SingleAdd" button setting>
         RefreshListener refreshListener = new RefreshListener(guiFrame.getTable());
-        JButton refresh = new JButton("Refresh");
+        JButton refresh = new JButton(localization.getString("refreshButton"));
         refresh.addActionListener(refreshListener);
         refresh.setPreferredSize(new Dimension(100,20));
         //  <"Remove" button setting>
         RemoveListener rmListener=new RemoveListener(new JTextField(),new JSpinner(),new JTextField(),labCollection.getUselessData(),guiFrame.getTable(),jpb,backLabel);
-        LabButton rmButton = new LabButton("Remove",rmListener);
+        LabButton rmButton = new LabButton(localization.getString("removeButton"),rmListener);
         //  </"Remove" button setting>
 
         //  <"Remove lower" button setting>
         RemoveLowerListener rmlListener=new RemoveLowerListener(new JTextField(),new JSpinner(),new JTextField(),labCollection.getUselessData(),guiFrame.getTable(),jpb);
-        LabButton rmLButton = new LabButton("Remove lower", rmlListener);
+        LabButton rmLButton = new LabButton(localization.getString("removeLowerButton"), rmlListener);
         //  </"Remove lower" button setting>
 
         //  <"Import" button setting>
-        LabButton ImportButton = new LabButton(labCollection.getUselessData(), guiFrame.getTable(),new JTextField(),jpb);
+        LabButton ImportButton = new LabButton(localization.getString("importButton"),labCollection.getUselessData(), guiFrame.getTable(),new JTextField(),jpb);
         //  </"Import" button setting>
 
         //  <"Save" button setting>
-        JButton saveButton = new JButton("Save");
+        JButton saveButton = new JButton(localization.getString("saveButton"));
         saveButton.setPreferredSize(new Dimension(125,20));
         saveButton.addActionListener(new SaveListener(labCollection));
         //  </"Save" button setting>
+
+        String[] locales={"Русский","Slovenský","Español","Magyar"};
+        JComboBox localeBox=new JComboBox(locales);
+        switch (localization.getString("loc")){
+            case "RU":localeBox.setSelectedIndex(0); break;
+            case "SK":localeBox.setSelectedIndex(1);break;
+            case "ES":localeBox.setSelectedIndex(2);break;
+            case "HU":localeBox.setSelectedIndex(3);break;
+        }
+        localeBox.addActionListener(new LocaleListener(guiFrame,labCollection));
 
         //  <Adding elements to frame>
         guiFrame.add(rmLButton.getButtonPanel());
@@ -180,11 +187,13 @@ public class ConsoleApp {
         guiFrame.add(filterPanel);
         guiFrame.add(new JScrollPane(sortTable));
         //guiFrame.add(spinPanel);
+        guiFrame.add(localeBox);
         guiFrame.add(new JScrollPane(OutputPanel));
         guiFrame.add(jpb);
-
         //  </Adding elements to frame>
-        guiFrame.setVisible(true);
+        guiFrame.invalidate();
+        guiFrame.validate();
+        guiFrame.repaint();
     }
 
     public static LabCollection ImportFrom(String path) {

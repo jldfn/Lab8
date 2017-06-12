@@ -26,8 +26,8 @@ public class LabButton extends JButton{
         ButtonPanel.add(this);
     }
 
-    LabButton( TreeSet<Human> col,LabTable table,JTextField pathField, JProgressBar jPBar){
-        super("Import");
+    LabButton( String title,TreeSet<Human> col,LabTable table,JTextField pathField, JProgressBar jPBar){
+        super(title);
         setPreferredSize(new Dimension(125,20));
         addActionListener(new ImportListener(pathField,col,table,jPBar));
         pathField.setColumns(50);

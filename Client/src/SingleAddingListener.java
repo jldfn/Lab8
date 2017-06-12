@@ -1,3 +1,5 @@
+import sun.awt.geom.AreaOp;
+
 import
         javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -50,6 +52,9 @@ public class SingleAddingListener extends LabListener {
                     getCollection().clear();
                     getCollection().addAll(makeCall("add",Person).getUselessData());
                     getTable().fireTableDataChanged();
+                    ConsoleApp.timedOut=false;
+                    ConsoleApp.timeOut.sleepTime=120000;
+                    ConsoleApp.timeOut.interrupt();
                 } else {
                     System.out.print("Поле \"Локация\" не может являться пустым. В локации могут содержаться лишь символы кириллицы, латинского алфавита, цифры, \"-\" и \"_\"");
                     String path = "src/music/shekh.wav";

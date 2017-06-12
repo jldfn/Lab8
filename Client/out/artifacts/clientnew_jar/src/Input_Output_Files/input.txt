@@ -1,12 +1,6 @@
 <Collection name="">
-	<Human name="Паша" age="17" loc="Москва"/>
-	<Human name="Елена" age="30" loc="Саратов"/>
-	<Human name="Миша" age="20" loc="Хабаровск"/>
-	<Human name="Катя" age="10" loc="Ярославль"/>
-	<Human name="Денис" age="18" loc="Тольятти"/>
-	<Human name="Егор_Летов" age="44" loc="Омск"/>
-	<Human name="Михаил_Горшенев" age="39" loc="СПб"/>
-	<Human name="Юрий_Гагарин" age="40" loc="Москва"/>
-	<Human name="Алексей" age="19" loc="Архангельск"/>
-	<Human name="Дмитрий" age="18" loc="Петрозаводск"/>
+	<Human name="ads" age="40" loc="asdsda"/>
+	<Human name="asds" age="30" loc="dadss"/>
+	<Human name="safasd" age="40" loc="sdfdsfsd"/>
+	<Human name="Diman_pidor" age="19" loc="Samara"/>
 </Collection>
